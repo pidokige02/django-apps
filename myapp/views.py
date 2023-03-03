@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-import random
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 topics = [  #list
@@ -43,9 +43,10 @@ def read(request, id):
             article = f'<h2>{topic["title"]}</h2>{topic["body"]}'
     return HttpResponse(HTMLTemplate(article))
 
+@csrf_exempt  #보안기능 면제하세요
 def create(request):
     article = '''
-        <form action="/create/">
+        <form action="/create/" method="post">
             <p><input type="text" name="title" placeholder="title"></p>
             <p><textarea name="body" placeholder="body"></textarea></p>
             <p><input type="submit"></p>
