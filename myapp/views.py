@@ -8,26 +8,47 @@ topics = [  #list
     {'id':3, 'title':'Model', 'body':'Model is ..'},
 ]
 
-def index(request):
-    global topics  # 전역변수임
+def HTMLTemplate(articleTag):
+    global topics
     ol = ''
     for topic in topics:
-        ol += f'<li><a href="/read/{topic["id"]}">{topic["title"]}</a></li>' # f를 붙이면 중괄호일때 변수를 바로 사용할 수 있다
-    return HttpResponse(f'''
+        ol += f'<li><a href="/read/{topic["id"]}">{topic["title"]}</a></li>'
+    return f'''
     <html>
     <body>
-        <h1>Django</h1>
-        <ol>
+        <h1><a href="/">Django</a></h1>
+        <ul>
             {ol}
-        </ol>
-        <h2>Welcome</h2>
-        Hello, Django
+        </ul>
+        {articleTag}
+        <ul>
+            <li><a href="/create/">create</a></li>
+        </ul>
     </body>
     </html>
-    ''')
+    '''
 
-def create(request):
-    return HttpResponse('Create')
+def index(request):
+    article = '''
+    <h2>Welcome</h2>
+    Hello, Django
+    '''
+    return HttpResponse(HTMLTemplate(article))
 
 def read(request, id):
-    return HttpResponse('Read!'+id)
+    global topics
+    article = ''
+    for topic in topics:
+        if topic['id'] == int(id):
+            article = f'<h2>{topic["title"]}</h2>{topic["body"]}'
+    return HttpResponse(HTMLTemplate(article))
+
+def create(request):
+    article = '''
+        <form action="/create/">
+            <p><input type="text" name="title" placeholder="title"></p>
+            <p><textarea name="body" placeholder="body"></textarea></p>
+            <p><input type="submit"></p>
+        </form>
+    '''
+    return HttpResponse(HTMLTemplate(article))
