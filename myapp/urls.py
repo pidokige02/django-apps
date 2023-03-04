@@ -18,5 +18,7 @@ from myapp import views
 urlpatterns = [
     path('', views.index),
     path('create/', views.create),
-    path('read/<id>/', views.read)  # <id> 은 가변적인 값을 받기위해 사용한다
+    path('read/<id>/', views.read),  # <id> 은 가변적인 값을 받기위해 사용한다
+    path('update/<id>/', views.update),
+    path('delete/', views.delete)
 ]
