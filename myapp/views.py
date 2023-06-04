@@ -52,23 +52,19 @@ def IndexView(request):
     context = {
         'latest_content_list': latest_content_list,
         'article': article
-        }
+    }
     return render(request, 'myapp/content.html', context)
 
-def index(request):
-    article = '''
-    <h2>Welcome</h2>
-    Hello, Django
-    '''
-    return HttpResponse(HTMLTemplate(article))
-
 def read(request, id):
-    global topics
     article = ''
-    for topic in topics:
-        if topic['id'] == int(id):
-            article = f'<h2>{topic["title"]}</h2>{topic["body"]}'
-    return HttpResponse(HTMLTemplate(article, id))
+    selected_content = Content.objects.filter(id=int(id)).first()
+    article = f'<h2>{selected_content.title}</h2>{selected_content.body}'
+    print("jinha", article)
+    context = {
+        'article': article
+    }
+    return render(request, 'myapp/content.html', context)
+
 
 @csrf_exempt  #보안기능 면제하세요
 def create(request):
