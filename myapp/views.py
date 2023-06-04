@@ -1,5 +1,7 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
+
+from .models import Content
 
 # Create your views here.
 nextId = 4
@@ -41,6 +43,17 @@ def HTMLTemplate(articleTag, id=None):
     </html>
     '''
 
+def IndexView(request):
+    latest_content_list = Content.objects.all()
+    article = '''
+    <h2>Welcome</h2>
+    Hello, Django
+    '''
+    context = {
+        'latest_content_list': latest_content_list,
+        'article': article
+        }
+    return render(request, 'myapp/content.html', context)
 
 def index(request):
     article = '''
