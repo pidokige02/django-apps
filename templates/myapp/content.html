@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if latest_content_list %}
+    <h1><a href="/">Django</a></h1>
+    <ul>
+    {% for content in latest_content_list %}
+    <li><a href="/read/{{content.id}}">{{content.title}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No contents are available.</p>
+{% endif %}
+
+    {{article | safe }}
+
+<ul>
+    <li><a href="/create/">create</a></li>
+
+    {% if selectedId %}
+        {% include "../inc/deleteform.html" %}
+    {% endif %}
+
+</ul>
+{% endblock %}
