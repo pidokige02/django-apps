@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 {% if latest_content_list %}
     <h1><a href="/">Django</a></h1>
@@ -16,8 +17,10 @@
 
 <ul>
     <li><a href="/create/">create</a></li>
-    {% autoescape off %}
-    {contextUI}
-    {% endautoescape %}
+
+    {% if selectedId %}
+        {% include "../inc/deleteform.html" %}
+    {% endif %}
+
 </ul>
 {% endblock %}
